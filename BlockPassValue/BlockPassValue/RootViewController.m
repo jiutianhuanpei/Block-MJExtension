@@ -8,9 +8,13 @@
 
 #import "RootViewController.h"
 
-@interface RootViewController ()
+@interface RootViewController ()<UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
+
+static NSString *cellIndentifier = @"cell";
 
 @implementation RootViewController
 
@@ -18,7 +22,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      self.view.backgroundColor = [UIColor whiteColor];
+     [self creatTableView];
      
+     
+}
+
+- (void)creatTableView
+{
+     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.height - 20) style:UITableViewStylePlain];
+     _tableView.delegate = self;
+     _tableView.dataSource = self;
+     [self.view addSubview:_tableView];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+     return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier forIndexPath:indexPath];
+     return cell;
 }
 
 - (void)didReceiveMemoryWarning {
